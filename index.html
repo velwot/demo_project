@@ -49,6 +49,11 @@
     .delete { background: transparent; color: #a0a7b5; padding: 5px 8px; font-size: 18px; }
     .empty { text-align: center; color: #8a93a5; padding: 28px 0; }
     .count { color: #697386; font-size: 14px; }
+    .notes-link {
+      display: inline-block; margin-top: 20px; padding: 10px 14px; border-radius: 10px;
+      background: #eef0ff; color: #5366e8; font-weight: 700; text-decoration: none;
+    }
+    .notes-link:hover { background: #dfe3ff; }
   </style>
 </head>
 <body>
@@ -73,6 +78,7 @@
     <ul id="list"></ul>
     <div id="empty" class="empty">No tasks yet — add one above.</div>
     <div class="count" id="count"></div>
+    <a class="notes-link" href="notes.html">Open my notes</a>
   </main>
 
   <script>
@@ -153,4 +159,3 @@
   </script>
 </body>
 </html>
-
