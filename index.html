@@ -1,161 +1,19 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quick Todo</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; font-family: Inter, system-ui, -apple-system, sans-serif;
-      background: #f5f7fb; color: #172033; display: grid; place-items: center; padding: 24px;
-    }
-    .app {
-      width: min(680px, 100%); background: white; border: 1px solid #e5e9f2;
-      border-radius: 20px; padding: 28px; box-shadow: 0 18px 50px rgba(24, 35, 58, .08);
-    }
-    h1 { margin: 0 0 6px; font-size: 30px; }
-    .sub { margin: 0 0 22px; color: #697386; }
-    form { display: flex; gap: 10px; }
-    input {
-      flex: 1; border: 1px solid #d9dfeb; border-radius: 12px; padding: 13px 14px;
-      font-size: 16px; outline: none;
-    }
-    input:focus { border-color: #6b7cff; box-shadow: 0 0 0 3px rgba(107,124,255,.12); }
-    button {
-      border: 0; border-radius: 12px; padding: 12px 16px; cursor: pointer;
-      background: #5366e8; color: white; font-weight: 700;
-    }
-    .toolbar { display: flex; justify-content: space-between; align-items: center; margin: 22px 0 12px; }
-    .filters { display: flex; gap: 6px; }
-    .filter {
-      background: transparent; color: #697386; padding: 7px 10px; font-weight: 600;
-    }
-    .filter.active { background: #eef0ff; color: #5366e8; }
-    #clear { background: transparent; color: #8a93a5; padding: 7px; }
-    ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-    li {
-      display: flex; align-items: center; gap: 12px; padding: 13px 12px;
-      border: 1px solid #edf0f5; border-radius: 12px;
-    }
-    li.done .text { text-decoration: line-through; color: #9aa2b1; }
-    .check {
-      width: 20px; height: 20px; border: 2px solid #cbd2df; border-radius: 50%;
-      padding: 0; flex: 0 0 auto; background: white;
-    }
-    li.done .check { background: #5366e8; border-color: #5366e8; position: relative; }
-    li.done .check::after { content: "✓"; color: white; font-size: 13px; position: absolute; left: 3px; top: -1px; }
-    .text { flex: 1; word-break: break-word; }
-    .delete { background: transparent; color: #a0a7b5; padding: 5px 8px; font-size: 18px; }
-    .empty { text-align: center; color: #8a93a5; padding: 28px 0; }
-    .count { color: #697386; font-size: 14px; }
-    .notes-link {
-      display: inline-block; margin-top: 20px; padding: 10px 14px; border-radius: 10px;
-      background: #eef0ff; color: #5366e8; font-weight: 700; text-decoration: none;
-    }
-    .notes-link:hover { background: #dfe3ff; }
-  </style>
-</head>
-<body>
-  <main class="app">
-    <h1>your Tasks</h1>
-    <p class="sub">A simple to-do list that stays in your browser.</p>
-
-    <form id="form">
-      <input id="input" aria-label="New task" placeholder="What needs to be done?" autocomplete="off" />
-      <button>Add task</button>
-    </form>
-
-    <div class="toolbar">
-      <div class="filters">
-        <button class="filter active" data-filter="all">All</button>
-        <button class="filter" data-filter="active">Active</button>
-        <button class="filter" data-filter="done">Done</button>
-      </div>
-      <button id="clear">Clear completed</button>
-    </div>
-
-    <ul id="list"></ul>
-    <div id="empty" class="empty">No tasks yet — add one above.</div>
-    <div class="count" id="count"></div>
-    <a class="notes-link" href="notes.html">Open my notes</a>
-  </main>
-
-  <script>
-    const KEY = "quick-todo-v1";
-    let tasks = JSON.parse(localStorage.getItem(KEY) || "[]");
-    let filter = "all";
-
-    const form = document.querySelector("#form");
-    const input = document.querySelector("#input");
-    const list = document.querySelector("#list");
-    const empty = document.querySelector("#empty");
-    const count = document.querySelector("#count");
-
-    function save() {
-      localStorage.setItem(KEY, JSON.stringify(tasks));
-    }
-
-    function render() {
-      const visible = tasks.filter(t =>
-        filter === "all" || (filter === "active" && !t.done) || (filter === "done" && t.done)
-      );
-      list.innerHTML = "";
-      visible.forEach(task => {
-        const li = document.createElement("li");
-        if (task.done) li.classList.add("done");
-
-        const check = document.createElement("button");
-        check.className = "check";
-        check.setAttribute("aria-label", task.done ? "Mark active" : "Mark complete");
-        check.onclick = () => { task.done = !task.done; save(); render(); };
-
-        const text = document.createElement("span");
-        text.className = "text";
-        text.textContent = task.text;
-
-        const del = document.createElement("button");
-        del.className = "delete";
-        del.textContent = "×";
-        del.setAttribute("aria-label", "Delete task");
-        del.onclick = () => { tasks = tasks.filter(t => t.id !== task.id); save(); render(); };
-
-        li.append(check, text, del);
-        list.appendChild(li);
-      });
-
-      empty.style.display = visible.length ? "none" : "block";
-      const remaining = tasks.filter(t => !t.done).length;
-      count.textContent = `${remaining} task${remaining === 1 ? "" : "s"} remaining`;
-    }
-
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
-      tasks.unshift({ id: crypto.randomUUID(), text, done: false });
-      input.value = "";
-      save();
-      render();
-      input.focus();
-    });
-
-    document.querySelectorAll(".filter").forEach(btn => {
-      btn.onclick = () => {
-        filter = btn.dataset.filter;
-        document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        render();
-      };
-    });
-
-    document.querySelector("#clear").onclick = () => {
-      tasks = tasks.filter(t => !t.done);
-      save();
-      render();
-    };
-
-    render();
-  </script>
-</body>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C2410C' stroke-width='2'><circle cx='12' cy='12' r='10'/><polygon points='12 6 15 11 20 12 16 16 17 21 12 18 7 21 8 16 4 12 9 11 12 6'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Narayan | IT Student • Developer • Problem Solver</title>
+    <meta name="description" content="Portfolio of Narayan — Information Technology student, software developer, and problem solver. Modern technology seamlessly blended with 2D Indian traditional accent art." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Federo&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#FAF7F2] text-[#1C1917] antialiased selection:bg-[#9A3412] selection:text-white transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

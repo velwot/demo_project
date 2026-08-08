@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Indian Tribal Street Wall Art Color Palette */
+    --wall-clay: #F5EFE4;
+    --wall-mud-dark: #1E1611;
+    --wall-terracotta: #B93814;
+    --wall-geru-red: #8C2208;
+    --wall-chalk-white: #FAF6EE;
+    --wall-charcoal: #181512;
+    --wall-ochre: #D97706;
+    --wall-turmeric: #EAB308;
+    --wall-indigo: #1A2542;
+    --wall-accent-green: #15803D;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background-color: var(--wall-clay);
+    color: var(--wall-charcoal);
+    /* Textured Street Plaster Wall Texture with Stencil Granules */
+    background-image: 
+      radial-gradient(rgba(185, 56, 20, 0.06) 1.5px, transparent 1.5px),
+      radial-gradient(rgba(26, 37, 66, 0.05) 1.5px, #F5EFE4 1.5px);
+    background-size: 28px 28px;
+    background-position: 0 0, 14px 14px;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .font-heritage {
+    font-family: 'Cinzel', serif;
+  }
+
+  .font-tribal {
+    font-family: 'Federo', cursive;
+  }
+}
+
+/* Indian Tribal Street Wall Texture Utilities */
+.tribal-wall-texture {
+  background-color: #FAF5EA;
+  background-image: 
+    radial-gradient(#B93814 0.6px, transparent 0.6px), 
+    radial-gradient(#1A2542 0.6px, #FAF5EA 0.6px);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 9px;
+  box-shadow: inset 0 0 40px rgba(139, 34, 8, 0.04);
+}
+
+.dark-mud-wall {
+  background-color: #1E1611;
+  background-image: 
+    radial-gradient(rgba(250, 246, 238, 0.12) 1px, transparent 1px),
+    radial-gradient(rgba(217, 119, 6, 0.15) 1px, #1E1611 1px);
+  background-size: 20px 20px;
+  color: #FAF6EE;
+}
+
+/* Tribal Street Wall Stencil Typography & Badges */
+.street-stencil-text {
+  background: linear-gradient(135deg, #B93814 0%, #D97706 50%, #1A2542 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+.street-mural-border {
+  border: 3px solid #B93814;
+  border-style: solid;
+  position: relative;
+}
+
+.street-mural-border::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px dashed #D97706;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Handmade Wall Painting Line Drawing Effect */
+@keyframes muralStroke {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.animate-mural-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: muralStroke 3s ease-out forwards;
+}
+
+/* Custom Scrollbar styled as Terracotta Clay */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F5EFE4;
+}
+::-webkit-scrollbar-thumb {
+  background: #B93814;
+  border-radius: 5px;
+  border: 2px solid #F5EFE4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8C2208;
+}
