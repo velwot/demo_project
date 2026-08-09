@@ -1,112 +1,186 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Indian Tribal Street Wall Art Color Palette */
-    --wall-clay: #F5EFE4;
-    --wall-mud-dark: #1E1611;
-    --wall-terracotta: #B93814;
-    --wall-geru-red: #8C2208;
-    --wall-chalk-white: #FAF6EE;
-    --wall-charcoal: #181512;
-    --wall-ochre: #D97706;
-    --wall-turmeric: #EAB308;
-    --wall-indigo: #1A2542;
-    --wall-accent-green: #15803D;
-  }
+/* ── Warli Design System ─────────────────────────────────────── */
 
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-    background-color: var(--wall-clay);
-    color: var(--wall-charcoal);
-    /* Textured Street Plaster Wall Texture with Stencil Granules */
-    background-image: 
-      radial-gradient(rgba(185, 56, 20, 0.06) 1.5px, transparent 1.5px),
-      radial-gradient(rgba(26, 37, 66, 0.05) 1.5px, #F5EFE4 1.5px);
-    background-size: 28px 28px;
-    background-position: 0 0, 14px 14px;
-  }
-
-  h1, h2, h3, .font-heading {
-    font-family: 'Outfit', sans-serif;
-  }
-
-  .font-heritage {
-    font-family: 'Cinzel', serif;
-  }
-
-  .font-tribal {
-    font-family: 'Federo', cursive;
-  }
+@theme {
+  --color-parchment: #F5F0E8;
+  --color-parchment-light: #FAF7F2;
+  --color-parchment-dark: #E8DFCF;
+  --color-ink: #1C1612;
+  --color-ink-light: #3D3530;
+  --color-ink-muted: #7A6E64;
+  --color-terracotta: #A0522D;
+  --color-terracotta-muted: #C4956C;
+  --color-beige: #D4C4A8;
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
 }
 
-/* Indian Tribal Street Wall Texture Utilities */
-.tribal-wall-texture {
-  background-color: #FAF5EA;
-  background-image: 
-    radial-gradient(#B93814 0.6px, transparent 0.6px), 
-    radial-gradient(#1A2542 0.6px, #FAF5EA 0.6px);
-  background-size: 18px 18px;
-  background-position: 0 0, 9px 9px;
-  box-shadow: inset 0 0 40px rgba(139, 34, 8, 0.04);
+/* ── Base ─────────────────────────────────────────────────────── */
+
+html {
+  background-color: var(--color-parchment-light);
+  color: var(--color-ink);
 }
 
-.dark-mud-wall {
-  background-color: #1E1611;
-  background-image: 
-    radial-gradient(rgba(250, 246, 238, 0.12) 1px, transparent 1px),
-    radial-gradient(rgba(217, 119, 6, 0.15) 1px, #1E1611 1px);
-  background-size: 20px 20px;
-  color: #FAF6EE;
-}
-
-/* Tribal Street Wall Stencil Typography & Badges */
-.street-stencil-text {
-  background: linear-gradient(135deg, #B93814 0%, #D97706 50%, #1A2542 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
-}
-
-.street-mural-border {
-  border: 3px solid #B93814;
-  border-style: solid;
+body {
+  font-family: var(--font-family-sans);
+  background-color: var(--color-parchment-light);
   position: relative;
+  min-height: 100vh;
 }
 
-.street-mural-border::before {
+/* Subtle paper texture overlay */
+body::before {
   content: '';
-  position: absolute;
-  inset: -6px;
-  border: 1px dashed #D97706;
+  position: fixed;
+  inset: 0;
   pointer-events: none;
-  border-radius: inherit;
+  z-index: 9999;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
-/* Handmade Wall Painting Line Drawing Effect */
-@keyframes muralStroke {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
+/* Selection */
+::selection {
+  background-color: var(--color-terracotta);
+  color: var(--color-parchment-light);
 }
 
-.animate-mural-draw {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: muralStroke 3s ease-out forwards;
-}
-
-/* Custom Scrollbar styled as Terracotta Clay */
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F5EFE4;
+  background: var(--color-parchment);
 }
 ::-webkit-scrollbar-thumb {
-  background: #B93814;
-  border-radius: 5px;
-  border: 2px solid #F5EFE4;
+  background: var(--color-ink-muted);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8C2208;
+  background: var(--color-ink-light);
+}
+
+/* ── Animations ──────────────────────────────────────────────── */
+
+@keyframes draw {
+  from { stroke-dashoffset: var(--path-length, 1000); }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes sketchBorder {
+  from {
+    stroke-dashoffset: 2000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ── Utility Classes ─────────────────────────────────────────── */
+
+.draw-animation path,
+.draw-animation line,
+.draw-animation circle,
+.draw-animation polyline,
+.draw-animation polygon,
+.draw-animation rect,
+.draw-animation ellipse {
+  stroke-dasharray: var(--path-length, 1000);
+  stroke-dashoffset: var(--path-length, 1000);
+  animation: draw var(--draw-duration, 2s) var(--draw-delay, 0s) ease-out forwards;
+}
+
+.warli-card {
+  background-color: var(--color-parchment);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.warli-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-ink) 8%, transparent);
+}
+
+.section-container {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+/* Nav link underline draw effect */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-ink);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .draw-animation path,
+  .draw-animation line,
+  .draw-animation circle,
+  .draw-animation polyline,
+  .draw-animation polygon,
+  .draw-animation rect,
+  .draw-animation ellipse {
+    animation-duration: 0s !important;
+    stroke-dashoffset: 0 !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

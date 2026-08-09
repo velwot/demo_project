@@ -1,116 +1,88 @@
-import React, { useState } from 'react';
-import { Code, Globe, Wrench, CheckCircle2, Sparkles } from 'lucide-react';
-import { SKILL_CATEGORIES } from '../data/portfolioData';
-import { KalamkariCorner } from './art/KalamkariMotif';
+import { motion } from 'framer-motion';
+import { skills } from '../data/portfolioData';
+import { WarliDivider } from './art/WarliDivider';
 
-export const SkillsSection: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-
-  const categories = ['All', 'Programming', 'Web Development', 'Tools & Technologies'];
-
-  const getCategoryIcon = (catName: string) => {
-    switch (catName) {
-      case 'Programming': return <Code className="w-5 h-5 text-[#B93814]" />;
-      case 'Web Development': return <Globe className="w-5 h-5 text-[#1A2542]" />;
-      case 'Tools & Technologies': return <Wrench className="w-5 h-5 text-[#D97706]" />;
-      default: return <Sparkles className="w-5 h-5 text-[#B93814]" />;
-    }
-  };
-
-  const filteredCategories = SKILL_CATEGORIES.filter(
-    (cat) => selectedCategory === 'All' || cat.category === selectedCategory
-  );
-
+/* Small Warli motif for each card header */
+function CardMotif() {
   return (
-    <section id="skills" className="py-20 bg-[#F5EFE4]/80 relative border-y border-[#B93814]/15">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Title Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#B93814]/10 text-[#B93814] text-xs font-mono font-bold uppercase tracking-widest mb-3 border border-[#B93814]/20">
-            <span>MODERN INDIA: TECHNICAL CAPABILITIES</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#181512] tracking-tight">
-            Skills & <span className="text-[#B93814]">Technologies</span>
-          </h2>
-          <p className="mt-3 text-base text-[#181512]/80">
-            Core programming languages, web engineering frameworks, and developer tools.
-          </p>
+    <svg viewBox="0 0 40 20" className="w-8 h-4 inline-block mr-2 opacity-50" fill="none" stroke="currentColor" strokeLinecap="round">
+      <circle cx="10" cy="6" r="4" strokeWidth="1" />
+      <path d="M10 10 L6 18 L14 18 Z" strokeWidth="1" />
+      <path d="M20 16 L24 10 L28 16 L32 10 L36 16" strokeWidth="0.8" />
+    </svg>
+  );
+}
 
-          {/* Filter Pills */}
-          <div className="flex justify-center flex-wrap gap-2 mt-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-heading font-bold transition-all duration-200 ${
-                  selectedCategory === cat
-                    ? 'bg-[#B93814] text-[#FAF6EE] shadow-md scale-105'
-                    : 'bg-[#FAF5EA] text-[#181512] hover:bg-[#B93814]/10 hover:text-[#B93814] border border-[#B93814]/20'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
+/* Zigzag separator */
+function ZigzagLine() {
+  return (
+    <svg viewBox="0 0 200 8" className="w-full h-2 my-4 opacity-25" fill="none" stroke="currentColor" strokeLinecap="round">
+      {[...Array(12)].map((_, i) => (
+        <path key={i} d={`M${i * 16 + 4} 4 L${i * 16 + 10} 1 L${i * 16 + 16} 4`} strokeWidth="0.8" />
+      ))}
+    </svg>
+  );
+}
 
-        {/* Skill Category Cards Grid */}
-        <div className="space-y-10">
-          {filteredCategories.map((group, gIdx) => (
-            <div
-              key={gIdx}
-              className="bg-[#FAF5EA] p-8 rounded-2xl border-2 border-[#B93814]/30 shadow-md relative"
+const container = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+export function SkillsSection() {
+  return (
+    <section id="skills" className="py-24 md:py-32 bg-parchment">
+      <div className="section-container">
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <h2 className="font-display text-4xl md:text-5xl text-ink mb-6">Skills & Technologies</h2>
+          <WarliDivider className="opacity-40" />
+        </motion.div>
+
+        {/* Grid */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {skills.map((cat) => (
+            <motion.div
+              key={cat.category}
+              variants={item}
+              className="warli-card p-6 md:p-8"
             >
-              <KalamkariCorner position="top-left" />
-              <KalamkariCorner position="bottom-right" />
-
-              {/* Category Header */}
-              <div className="flex items-center gap-3 border-b border-[#B93814]/20 pb-4 mb-6">
-                <div className="p-3 rounded-xl bg-[#F5EFE4] border border-[#B93814]/30">
-                  {getCategoryIcon(group.category)}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-[#1A2542] font-heading">
-                    {group.category}
-                  </h3>
-                  <span className="text-xs font-mono text-[#B93814] font-bold">
-                    MODERN INDIA • {group.skills.length} TECHNOLOGIES
-                  </span>
-                </div>
-              </div>
-
-              {/* Grid of Skill Badges */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {group.skills.map((skill, sIdx) => (
-                  <div
-                    key={sIdx}
-                    className="group relative bg-[#F5EFE4]/80 hover:bg-[#FAF5EA] p-4 rounded-xl border border-[#B93814]/20 hover:border-[#B93814] transition-all duration-200 shadow-2xs hover:shadow-md flex items-center justify-between"
+              <h3 className="font-display text-xl text-ink flex items-center">
+                <CardMotif />
+                {cat.category}
+              </h3>
+              <ZigzagLine />
+              <div className="flex flex-wrap gap-2">
+                {cat.items.map((skill) => (
+                  <span
+                    key={skill}
+                    className="border border-ink/20 px-3 py-1.5 text-sm font-sans text-ink-light hover:border-ink/40 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#B93814] group-hover:scale-110 transition-transform" />
-                      <div>
-                        <h4 className="font-heading font-bold text-sm text-[#181512] group-hover:text-[#B93814] transition-colors">
-                          {skill.name}
-                        </h4>
-                        <p className="text-[11px] text-[#181512]/70 font-mono">
-                          {skill.motif}
-                        </p>
-                      </div>
-                    </div>
-
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#1A2542]/10 text-[#1A2542]">
-                      {skill.level}
-                    </span>
-                  </div>
+                    {skill}
+                  </span>
                 ))}
               </div>
-
-            </div>
+            </motion.div>
           ))}
-        </div>
-
+        </motion.div>
       </div>
     </section>
   );
-};
+}

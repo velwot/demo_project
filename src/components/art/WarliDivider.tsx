@@ -1,57 +1,39 @@
-import React from 'react';
-
-interface WarliDividerProps {
-  className?: string;
-  variant?: 'simple' | 'ornate';
-}
-
-export const WarliDivider: React.FC<WarliDividerProps> = ({ className = '' }) => {
+export function WarliDivider({ className = '' }: { className?: string }) {
   return (
-    <div className={`w-full flex items-center justify-center my-8 overflow-hidden opacity-90 ${className}`}>
-      <svg
-        viewBox="0 0 800 40"
-        className="w-full max-w-4xl h-8 text-[#9A3412]"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Left Horizontal Line */}
-        <line x1="0" y1="20" x2="310" y2="20" stroke="#9A3412" strokeWidth="1.5" strokeDasharray="6 4" />
-        <circle cx="310" cy="20" r="3.5" fill="#D97706" />
+    <svg
+      viewBox="0 0 400 24"
+      className={`w-full max-w-md ${className}`}
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      {/* Left line with zigzag */}
+      <line x1="10" y1="12" x2="120" y2="12" strokeWidth="0.8" />
+      <path d="M125 12 L130 6 L135 12 L140 6 L145 12 L150 6 L155 12" strokeWidth="0.8" />
 
-        {/* Right Horizontal Line */}
-        <line x1="490" y1="20" x2="800" y2="20" stroke="#9A3412" strokeWidth="1.5" strokeDasharray="6 4" />
-        <circle cx="490" cy="20" r="3.5" fill="#D97706" />
+      {/* Center motif - small sun */}
+      <circle cx="200" cy="12" r="7" strokeWidth="1" />
+      <circle cx="200" cy="12" r="2.5" fill="currentColor" strokeWidth="0" />
+      {[...Array(8)].map((_, i) => {
+        const angle = (i * 45 * Math.PI) / 180;
+        const x1 = 200 + Math.cos(angle) * 9;
+        const y1 = 12 + Math.sin(angle) * 9;
+        const x2 = 200 + Math.cos(angle) * 13;
+        const y2 = 12 + Math.sin(angle) * 13;
+        return <line key={`dr-${i}`} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth="0.8" />;
+      })}
 
-        {/* Central Traditional Indian Folk Motif / Warli Coders */}
-        <g transform="translate(400, 20)">
-          {/* Central Sun/Gear Motif */}
-          <circle cx="0" cy="0" r="14" fill="#FAF7F2" stroke="#1E1B4B" strokeWidth="2" />
-          <circle cx="0" cy="0" r="6" fill="#9A3412" />
-          <text x="0" y="3.5" textAnchor="middle" fill="#FAF7F2" fontSize="8" fontWeight="bold" fontFamily="monospace">&lt;&gt;</text>
+      {/* Right line with zigzag */}
+      <path d="M245 12 L250 6 L255 12 L260 6 L265 12 L270 6 L275 12" strokeWidth="0.8" />
+      <line x1="280" y1="12" x2="390" y2="12" strokeWidth="0.8" />
 
-          {/* Left Warli Coder */}
-          <g transform="translate(-45, 0)">
-            <circle cx="0" cy="-10" r="4" fill="#9A3412" />
-            <path d="M-6,2 L0,-5 L6,2 Z" fill="#9A3412" />
-            <path d="M-6,2 L0,9 L6,2 Z" fill="#9A3412" />
-            <path d="M-6,0 L-11,-4 M6,0 L11,-4" stroke="#9A3412" strokeWidth="1.5" />
-            <path d="M-3,9 L-6,16 M3,9 L6,16" stroke="#9A3412" strokeWidth="1.5" />
-          </g>
-
-          {/* Right Warli Coder */}
-          <g transform="translate(45, 0)">
-            <circle cx="0" cy="-10" r="4" fill="#1E1B4B" />
-            <path d="M-6,2 L0,-5 L6,2 Z" fill="#1E1B4B" />
-            <path d="M-6,2 L0,9 L6,2 Z" fill="#1E1B4B" />
-            <path d="M-6,0 L-11,-4 M6,0 L11,-4" stroke="#1E1B4B" strokeWidth="1.5" />
-            <path d="M-3,9 L-6,16 M3,9 L6,16" stroke="#1E1B4B" strokeWidth="1.5" />
-          </g>
-
-          {/* Connecting Dots */}
-          <circle cx="-24" cy="0" r="2" fill="#D97706" />
-          <circle cx="24" cy="0" r="2" fill="#D97706" />
-        </g>
-      </svg>
-    </div>
+      {/* Small dots near center */}
+      <circle cx="165" cy="12" r="1.5" fill="currentColor" strokeWidth="0" />
+      <circle cx="175" cy="12" r="1.5" fill="currentColor" strokeWidth="0" />
+      <circle cx="225" cy="12" r="1.5" fill="currentColor" strokeWidth="0" />
+      <circle cx="235" cy="12" r="1.5" fill="currentColor" strokeWidth="0" />
+    </svg>
   );
-};
+}
