@@ -1,186 +1,21 @@
 @import "tailwindcss";
 
-/* ── Warli Design System ─────────────────────────────────────── */
-
-@theme {
-  --color-parchment: #F5F0E8;
-  --color-parchment-light: #FAF7F2;
-  --color-parchment-dark: #E8DFCF;
-  --color-ink: #1C1612;
-  --color-ink-light: #3D3530;
-  --color-ink-muted: #7A6E64;
-  --color-terracotta: #A0522D;
-  --color-terracotta-muted: #C4956C;
-  --color-beige: #D4C4A8;
-  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-family-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-}
-
-/* ── Base ─────────────────────────────────────────────────────── */
-
-html {
-  background-color: var(--color-parchment-light);
-  color: var(--color-ink);
-}
-
-body {
-  font-family: var(--font-family-sans);
-  background-color: var(--color-parchment-light);
-  position: relative;
-  min-height: 100vh;
-}
-
-/* Subtle paper texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-
-/* Selection */
-::selection {
-  background-color: var(--color-terracotta);
-  color: var(--color-parchment-light);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-parchment);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-ink-muted);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-light);
-}
-
-/* ── Animations ──────────────────────────────────────────────── */
-
-@keyframes draw {
-  from { stroke-dashoffset: var(--path-length, 1000); }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes sketchBorder {
-  from {
-    stroke-dashoffset: 2000;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes subtlePulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* ── Utility Classes ─────────────────────────────────────────── */
-
-.draw-animation path,
-.draw-animation line,
-.draw-animation circle,
-.draw-animation polyline,
-.draw-animation polygon,
-.draw-animation rect,
-.draw-animation ellipse {
-  stroke-dasharray: var(--path-length, 1000);
-  stroke-dashoffset: var(--path-length, 1000);
-  animation: draw var(--draw-duration, 2s) var(--draw-delay, 0s) ease-out forwards;
-}
-
-.warli-card {
-  background-color: var(--color-parchment);
-  border: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.warli-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--color-ink) 8%, transparent);
-}
-
-.section-container {
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .section-container {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .section-container {
-    padding-left: 5rem;
-    padding-right: 5rem;
-  }
-}
-
-/* Nav link underline draw effect */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--color-ink);
-  transition: width 0.3s ease;
-}
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .draw-animation path,
-  .draw-animation line,
-  .draw-animation circle,
-  .draw-animation polyline,
-  .draw-animation polygon,
-  .draw-animation rect,
-  .draw-animation ellipse {
-    animation-duration: 0s !important;
-    stroke-dashoffset: 0 !important;
-  }
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
+:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #18251f; background: #f7f7f2; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+.site-shell { max-width: 1120px; margin: auto; padding: 0 32px; }
+.site-header { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid #dce2d9; }
+.brand { color: inherit; font: 700 1.4rem Georgia, serif; text-decoration: none; letter-spacing: -.04em; }.brand span { color: #cb5a32; }
+nav { display: flex; gap: 26px; margin-left: auto; } nav a { color: #5f6b63; text-decoration: none; font-size: .9rem; } nav a:hover, .text-button:hover { color: #cb5a32; }
+.primary-button { border: 0; border-radius: 4px; padding: 11px 17px; background: #18251f; color: white; font-size: .88rem; font-weight: 650; }.primary-button:hover { background: #31463a; }
+.intro { padding: 126px 0 110px; max-width: 760px; }.eyebrow { color: #cb5a32; font-size: .7rem; font-weight: 750; letter-spacing: .14em; margin: 0 0 16px; }
+h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; font-weight: 500; letter-spacing: -.045em; } h1 { font-size: clamp(3.2rem, 8vw, 6.2rem); line-height: .95; margin: 0; } h2 { font-size: 2.5rem; margin: 0; } h3 { font-size: 1.5rem; margin: 8px 0 12px; }
+.bio { color: #536158; max-width: 570px; font-size: 1.13rem; line-height: 1.75; margin: 30px 0 20px; }.text-button { padding: 0; border: 0; background: none; color: #18251f; font-size: .88rem; font-weight: 700; }
+.content-section { padding: 74px 0; border-top: 1px solid #dce2d9; }.blog-section { padding-bottom: 110px; }.section-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 38px; }
+.post-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }.post-card, .blog-card { background: #fff; border: 1px solid #e1e5df; padding: 28px; }.post-card:hover, .blog-card:hover { border-color: #a6b4aa; transform: translateY(-2px); transition: .2s ease; }
+time { color: #7b897f; font-size: .77rem; }.post-card p, .blog-card p { color: #59675e; line-height: 1.65; margin: 0; }.blog-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }.blog-card { padding: 36px; min-height: 240px; }.blog-card span { display: inline-block; margin-top: 26px; font-size: .85rem; font-weight: 700; }
+footer { border-top: 1px solid #dce2d9; color: #7b897f; padding: 28px 0 45px; font-size: .82rem; }.modal-backdrop { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 20px; background: rgb(16 28 21 / .5); }.editor { position: relative; width: min(100%, 560px); padding: 42px; background: #f7f7f2; box-shadow: 0 24px 80px rgb(0 0 0 / .2); }.editor h2 { margin: 0 0 28px; font-size: 2.1rem; }.editor label { display: grid; gap: 8px; margin: 18px 0; color: #536158; font-size: .83rem; font-weight: 700; }.editor input, .editor textarea { width: 100%; border: 1px solid #cbd4cc; border-radius: 3px; padding: 11px; background: white; color: #18251f; font-weight: 400; resize: vertical; }.editor input:focus, .editor textarea:focus { outline: 2px solid #cb5a32; outline-offset: 1px; }.close { position: absolute; right: 20px; top: 16px; border: 0; background: none; color: #536158; font-size: 1.8rem; }
+@media (max-width: 640px) { .site-shell { padding: 0 20px; }.site-header { min-height: 72px; }.site-header .primary-button, nav { display: none; }.intro { padding: 86px 0 76px; }.post-list, .blog-list { grid-template-columns: 1fr; }.section-heading { align-items: center; }.content-section { padding: 58px 0; }.editor { padding: 34px 24px; } }
